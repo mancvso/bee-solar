@@ -1,4 +1,4 @@
-services.factory('Base64', function() {
+angular.module('beeSolarApp').factory('Base64', function() {
     var keyStr = 'ABCDEFGHIJKLMNOP' +
         'QRSTUVWXYZabcdef' +
         'ghijklmnopqrstuv' +

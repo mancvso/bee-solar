@@ -40,6 +40,12 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
     }
   }
 
+  def views = pathPrefix("html" / Rest) { fileName =>
+    get {
+      encodeResponse(Gzip) { getFromResource(s"html/$fileName") }
+    }
+  }
+
   def auth = path("auth") {
     get {
       authenticate(BasicAuth("Bee Solar")) { user =>
@@ -59,5 +65,5 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
 
   }
 
-  def routes = index ~ js ~ css ~ img ~ api ~ auth
+  def routes = index ~ views ~ js ~ css ~ img ~ api ~ auth
 }
