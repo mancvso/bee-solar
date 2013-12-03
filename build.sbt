@@ -1,34 +1,30 @@
-organization  := "com.datactil"
+import AssemblyKeys._
 
-version       := "0.0.2"
+resolvers += "spray repo" at "http://repo.spray.io"
 
-scalaVersion  := "2.10.3"
+resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
 
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
+resolvers += "Mark Schaake" at "http://markschaake.github.com/snapshots"
 
-unmanagedResourceDirectories in Compile <++= baseDirectory { base =>
-    Seq( base / "src/main/webapp" )
-}
+scalaVersion := "2.10.3"
 
-resolvers ++= Seq(
-  "spray repo" at "http://repo.spray.io/"
+name := "bee-solar"
+
+scalacOptions += "-feature"
+
+libraryDependencies ++= Seq(
+	"com.typesafe.akka" %% "akka-actor" % "2.1.4",
+	"ch.qos.logback" % "logback-classic" % "1.0.1",
+	"joda-time" % "joda-time" % "2.1",
+	"org.joda" % "joda-convert" % "1.3",
+	"sprest" %% "sprest-reactivemongo" % "0.2.0-SNAPSHOT",
+	"org.specs2" %% "specs2" % "2.1" % "test"
 )
-
-libraryDependencies ++= {
-    val akkaVersion = "2.2.3"
-    val sprayVersion = "1.2-RC4"
-    Seq(
-      "io.spray"            %   "spray-can"     % sprayVersion,
-      "io.spray"            %   "spray-routing" % sprayVersion,
-      "io.spray"            %   "spray-testkit" % sprayVersion,
-      "io.spray"            %%  "spray-json"    % "1.2.5",
-      "com.typesafe.akka"   %%  "akka-actor"    % akkaVersion,
-      "org.specs2"          %%  "specs2"        % "1.13" % "test",
-      "org.scalatest"       %   "scalatest_2.10" % "2.0.M5b" % "test"
-    )
-}
 
 seq(Revolver.settings: _*)
 
-seq(Twirl.settings: _*)
+seq(coffeeSettings: _*)
 
+seq(lessSettings:_*)
+
+assemblySettings

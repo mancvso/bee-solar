@@ -1,0 +1,81 @@
+<html>
+	<head>
+		<title>Sprest Example - ReactiveMongo</title>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/angular.js"></script>
+		<script type="text/javascript" src="js/angular-resource.js"></script>
+		<script type="text/javascript" src="js/base64.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/main.css">
+	</head>
+	<body>
+
+		<div class="container-fluid" ng-app="beeSolarModule">			
+
+			<div class="row-fluid" ng-controller="Authorization">
+				<div class="span12">
+					<form class="form-horizontal" ng-submit="doLogin()">
+						<div class="control-group">
+							 <label class="control-label" for="inputEmail">Usuario</label>
+							<div class="controls">
+								<input id="inputEmail" ng-model="username" type="text" />
+							</div>
+						</div>
+						<div class="control-group">
+							 <label class="control-label" for="inputPassword">Contraseña</label>
+							<div class="controls">
+								<input id="inputPassword" ng-model="password" type="password" />
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								 <button type="submit" class="btn">Sign in</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+
+			<h2>Clientes de Energía</h2>
+			<div ng-controller="Energys">
+				<h2 ng-show="isLogged">Logged</h2>
+				<ul class="unstyled">
+					<li ng-repeat="energy in energys">
+						<span class="energy-title">{{energy.device}}</span>
+						<span class="text-info">{{energy.start | date:'MM-dd hh:mm'}} </span> -
+						<span class="text-info">{{energy.end | date:'MM-dd hh:mm'}} </span>
+						<a href="#" ng-click="removeEnergy(energy)">[x]</a>
+					</li>
+				</ul>
+				<form ng-submit="addEnergy()" class="form-inline">
+					<input type="text" ng-model="energyText" placeholder="add energy">
+					<input class="btn btn-primary" type="submit" value="add">
+				</form>
+			</div>
+
+			<h2>Clientes de Wifi</h2>
+			<div ng-controller="Hotspots">
+				<h2 ng-show="isLogged">Logged</h2>
+				<ul class="unstyled">
+					<li ng-repeat="hotspot in hotspots">
+						<span class="hotspot-title">{{hotspot.user}}</span> @
+						<span class="hotspot-title">{{hotspot.device}}</span>
+						<span class="text-info">{{hotspot.start | date:'MM-dd hh:mm'}} </span> -
+						<span class="text-info">{{hotspot.end | date:'MM-dd hh:mm'}} </span>
+						<a href="#" ng-click="removeHotspot(hotspot)">[x]</a>
+					</li>
+				</ul>
+				<form ng-submit="addHotspot()" class="form-inline">
+					<input type="text" ng-model="hotspotDevice" placeholder="device">
+					<input type="text" ng-model="hotspotUser" placeholder="user">
+					<input class="btn btn-primary" type="submit" value="add">
+				</form>
+			</div>
+
+		</div><!-- container -->
+	</body>
+</html>

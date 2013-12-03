@@ -1,6 +1,13 @@
+resolvers += "spray repo" at "http://repo.spray.io"
+
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.1")
 
-addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.1.0")
+addSbtPlugin("me.lessis" % "coffeescripted-sbt" % "0.2.3")
 
-addSbtPlugin("io.spray" % "sbt-twirl" % "0.6.1")
+resolvers += "softprops-maven" at "http://dl.bintray.com/content/softprops/maven"
 
+libraryDependencies += "me.lessis" %% "lesst" % "0.1.1"
+
+addSbtPlugin("me.lessis" % "less-sbt" % "0.2.1")
+
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.9.2")
