@@ -13,6 +13,10 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
   import spray.httpx.encoding.Gzip
   import spray.json._
   import ExecutionContext.Implicits.global
+  import com.typesafe.config._
+  import datactil.beesolar.security.AuthIntent
+  
+  val confx = ConfigFactory.load()
 
   def js = pathPrefix("js" / Rest) { fileName =>
     get {
@@ -54,8 +58,19 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
 
   def auth = path("auth") {
     post {
-      // XXX: comprobar oToken, username, saltedPass
-        complete("OK")
+       entity(as[AuthIntent]) { authIntent =>
+        val password = confx.getString("spray.routing.users.password")
+        val username = confx.getString("spray.routing.users.username")
+        // XXX: SHA-1
+        val checkSalted = security.Base64.encode( password + ":" + authIntent.token)
+        val hasMatch:Boolean = (checkSalted.diff(authIntent.saltedPass).trim).length == 0
+
+        if(authIntent.username == username && hasMatch){
+          complete("OK")
+        } else {
+          complete("UNAUTHORIZED->" + (username + ":" + password) + "\n check:" + checkSalted + "\n data:" + authIntent.saltedPass + "\n user:" + authIntent.username)
+        }
+      }
     }
   }
 

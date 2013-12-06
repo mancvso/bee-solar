@@ -1,2 +1,13 @@
-<p>Cerrar sesión</p>
-<button class="btn btn-primary">Salir</button>
+
+<div class="jumbotron">
+	<div class="container" ng-show="isAuth()">
+		<h1>Cerrar sesión</h1>
+		<p>Presione el botòn para cerrar sesión definitivamente</p>
+		<button class="btn btn-primary btn-large" ng-click="deAuth()">Salir</button>
+	</div>
+	<div class="container" ng-hide="isAuth()">
+		<h1>Ha cerrado sesión</h1>
+		<p>Ruede cerrar esta ventana con confianza.</p>
+		<a class="btn btn-primary btn-large" href="#/main">Ir al inicio</a>
+	</div>
+</div>

@@ -11,8 +11,12 @@
       <input type="password" class="form-control" ng-model="password" placeholder="Contraseña" required="required">
     </div>
 
-    <div class="alert alert-success" ng-hide="isSending||isReady">
+    <div class="well well-sm" ng-hide="isSending || isReady">
       <span class="pull-right">
+        <button type="button" class="tootltip-enabled btn btn-default btn-sm" title="Usar otro texto aleatorio." ng-click="doRenew()">
+          <i class="glyphicon glyphicon-refresh"></i>
+        </button>
+        <span class="text-muted">&nbsp;|&nbsp;</span>
         <i data-toggle="popover"
           id="pop-saltedPass" class="glyphicon glyphicon-question-sign"
           data-title="Contraseña segura"
@@ -21,19 +25,10 @@
           data-placement="auto left"
           data-trigger="hover">
         </i>
-        <span class="text-muted">&nbsp;|&nbsp;</span>
-          <i ng-click="doRenew()"
-            data-toggle="popover"
-            id="pop-saltedPassRenew" class="glyphicon glyphicon-refresh"
-            data-content="Usar otro texto aleatorio."
-            data-container="body"
-            data-placement="auto left"
-            data-trigger="hover">
-          </i>
-        </span>
-      <p>
+      </span>
+      <p><small>
         <strong>Token:</strong>&nbsp;<span ng-model="sToken">{{sToken}}</span>
-      </p>
+      </small></p>
     </div>
 
     <div class="alert alert-info" ng-show="isSending">
@@ -44,7 +39,7 @@
       <p>Identificado correctamente.</p>
     </div>
 
-    <div class="alert alert-error" ng-show="wasRejected">
+    <div class="alert alert-danger" ng-show="wasRejected">
       <p>Credenciales erróneas.</p>
     </div>
 
@@ -53,5 +48,5 @@
 <script type="text/javascript">
   // XXX: Pasar a data-api
   $('#pop-saltedPass').popover();
-  $('#pop-saltedPassRenew').popover();
+  $('.tootltip-enabled').tooltip();
 </script>

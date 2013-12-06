@@ -3,11 +3,11 @@
     
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <!--local Nav -->
-        <ul class="nav nov-pills nav-stacked">
+        <ul class="nav nav-pills nav-stacked">
             <li><a href="#/home">Resumen</a></li>
             <li><a href="#/alert">Alertas</a></li>
             <li><a href="#/energy">Energía</a></li>
-            <li class="active">Wifi</li>
+            <li class="active"><a>Wifi</a></li>
         </ul>
     </div>
 
@@ -56,6 +56,27 @@
             <button type="submit" class="btn btn-primary">Actualizar</button>
         </form>
         <!-- LIST -->
+        <div class="pull-right">
+            <p>Filtrar</p>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary tooltip-enabled" data-toggle="tooltip" title="Todos" ng-click="filter('')">
+                    <i class="fa fa-asterisk" ></i>
+                </button>
+                <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Computadores"  ng-click="filter('laptop')">
+                    <i class="fa fa-laptop" ></i>
+                </button>
+                <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Teléfonos"  ng-click="filter('mobile')">
+                    <i class="fa fa-mobile" ></i>
+                </button>
+                <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Tablets"  ng-click="filter('tablet')">
+                    <i class="fa fa-tablet" ></i>
+                </button>
+                <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Consolas"   ng-click="filter('gamepad')">
+                    <i class="fa fa-gamepad"></i>
+                </button>
+            </div>
+        </div>
+
         <table class="table table-hover" ng-hide="isEditing || isWorking">
             <thead>
                 <tr>
@@ -89,3 +110,6 @@
         </div>
     </div> <!-- /col-8 -->
 </div><!-- /row -->
+<script type="text/javascript">
+    $(".tooltip-enabled").tooltip();
+</script>

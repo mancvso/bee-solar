@@ -1,4 +1,4 @@
-angular.module('beeSolarApp').factory('Auth', ['Base64', '$cookieStore', '$http', function (Base64, $cookieStore, $http) {
+angular.module('beeSolarApp').factory('Auth', ['Base64', '$cookieStore', '$http', '$location', function (Base64, $cookieStore, $http, $location) {
     // initialize to whatever is in the cookie, if anything
     $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
  
@@ -15,9 +15,21 @@ angular.module('beeSolarApp').factory('Auth', ['Base64', '$cookieStore', '$http'
             $http.defaults.headers.common.Authorization = 'Basic ';
         },
         hasCredentials: function () {
-            authData = $cookieStore.get('authdata') || '--'
-            //XXX: is native?
-            $http.defaults.headers.common.Authorization === ('Basic ' + authData )
+            var isAuth = false;
+            authData = $cookieStore.get('authdata') || '';
+            //console.log($http.defaults.headers.common.Authorization);
+            isAuth = ($http.defaults.headers.common.Authorization != 'Basic '); //$http.defaults.headers.common.Authorization == ('Basic ' + authData )
+            //console.log( "auth? " + isAuth)
+            return isAuth
+
+        },
+        manage: function(e){
+            if (e.status == 401) {
+                $location.path("/login");
+            } else {
+                $location.path("/500x");
+            };
         }
+
     };
 }]);

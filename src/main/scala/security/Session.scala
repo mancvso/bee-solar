@@ -11,3 +11,16 @@ case class Session() extends SprestSession {
   }
 
 }
+
+import spray.json._
+import sprest.models._
+import org.joda.time.DateTime
+import sprest.reactivemongo.typemappers._
+
+case class AuthIntent(token:String, username:String, saltedPass:String,
+    var id: Option[String] = None ) extends Model[String]
+
+object AuthIntent extends ModelCompanion[AuthIntent, String] {
+  import sprest.Formats._
+  implicit val jsonFormat = jsonFormat4(AuthIntent.apply _)
+}

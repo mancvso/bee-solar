@@ -2,11 +2,16 @@
 
 app = angular.module('beeSolarApp')
 
-app.controller 'EnergyCtrl', ($scope, Energy) ->
+app.controller 'EnergyCtrl', ($scope, Energy, Auth) ->
     $scope.doEnergy = ->  
         $scope.isEditing = false
         $scope.isWorking = true
-        $scope.energys   = Energy.query( () -> $scope.isWorking = false )
+        $scope.energys   = Energy.query(
+            () ->
+                $scope.isWorking = false
+            (e) ->
+                Auth.manage(e)
+        )
 
     $scope.add = (el) ->
         el = new Energy({
@@ -18,7 +23,7 @@ app.controller 'EnergyCtrl', ($scope, Energy) ->
 
     $scope.remove = (el) ->
         el.$remove( () -> 
-            # XXX: $scope.energys.remove( el )
+            $scope.energys.splice( $scope.energys.indexOf(el), 1)
             console.info "Removed from server"
         )
 

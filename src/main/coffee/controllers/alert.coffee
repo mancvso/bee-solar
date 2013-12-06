@@ -2,11 +2,17 @@
 
 app = angular.module('beeSolarApp')
 
-app.controller 'AlertCtrl', ($scope, Alert) ->
+app.controller 'AlertCtrl', ($scope, Alert, Auth) ->
+
     $scope.doAlert = ->  
         $scope.isEditing = false
         $scope.isWorking = true
-        $scope.alerts    = Alert.query( () -> $scope.isWorking = false )
+        $scope.alerts    = Alert.query(
+            () ->
+                $scope.isWorking = false
+            (e) ->
+                Auth.manage(e)
+        )
 
     $scope.add = (el) ->
         el = new Alert({
@@ -17,8 +23,8 @@ app.controller 'AlertCtrl', ($scope, Alert) ->
         $scope.alerts.push( el )
 
     $scope.remove = (el) ->
-        el.$remove( () -> 
-            # XXX: $scope.alerts.remove( el )
+        el.$remove( () ->
+            $scope.alerts.splice( $scope.alerts.indexOf(el), 1)
             console.info "Removed from server"
         )
 
@@ -31,3 +37,4 @@ app.controller 'AlertCtrl', ($scope, Alert) ->
         $scope.isEditing = false
 
     $scope.doAlert()
+

@@ -2,11 +2,16 @@
 
 app = angular.module('beeSolarApp')
 
-app.controller 'HotspotCtrl', ($scope, Hotspot) ->
+app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
     $scope.doHotspot = ->  
         $scope.isEditing = false
         $scope.isWorking = true
-        $scope.hotspots  = Hotspot.query( () -> $scope.isWorking = false )
+        $scope.hotspots  = Hotspot.query(
+            () ->
+                $scope.isWorking = false
+            (e) ->
+                Auth.manage(e)
+        )
 
     $scope.add = (el) ->
         el = new Hotspot({
@@ -20,7 +25,7 @@ app.controller 'HotspotCtrl', ($scope, Hotspot) ->
 
     $scope.remove = (el) ->
         el.$remove( () -> 
-            # XXX: $scope.hotspots.remove( el )
+            $scope.hotspots.splice( $scope.hotspots.indexOf(el), 1)
             console.info "Removed from server"
         )
 
@@ -31,5 +36,12 @@ app.controller 'HotspotCtrl', ($scope, Hotspot) ->
     $scope.doUpdate = ->
         $scope.current.$save()
         $scope.isEditing = false
+
+    $scope.filter = (sDevice) ->
+        if sDevice == ''
+            doHotspot()
+        #else
+        #    $scope.energys = $scope.energys.filter($scope.energys, (item) -> 
+        #        (item.device == 'sDevice')
 
     $scope.doHotspot()
