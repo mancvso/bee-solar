@@ -25,6 +25,6 @@ seq(Revolver.settings: _*)
 
 seq(coffeeSettings: _*)
 
-seq(lessSettings:_*)
+//seq(lessSettings:_*)
 
 assemblySettings

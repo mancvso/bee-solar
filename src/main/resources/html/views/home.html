@@ -1,1 +1,29 @@
-<p>This is the home view.</p>
+<h1>Panel de Monitoreo</h1>
+<div class="row">
+    
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <!--local Nav -->
+        <ul class="nav nov-pills nav-stacked">
+            <li class="active">Resumen</li>
+            <li><a href="#/alert">Alertas</a></li>
+            <li><a href="#/energy">Energía</a></li>
+            <li><a href="#/hotspot">Wifi</a></li>
+        </ul>
+    </div>
+
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <ol class="breadcrumb">
+            <li> <a href="#">Inicio</a> </li>
+            <li class="active">Resúmen</li>
+        </ol>
+        <h2>Resúmen</h2>
+
+    </div>
+        
+    <!-- Loader -->
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-show="isWorking">
+        <div class="alert alert-info">
+            Espere ...
+        </div>
+    </div>
+</div>

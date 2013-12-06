@@ -34,9 +34,9 @@ object DB extends ReactiveMongoPersistence {
   }
 
   // MongoDB collections:
-  object Reminders extends UnsecuredDAO[Reminder]("reminders") with UUIDStringId
   object Energys extends UnsecuredDAO[Energy]("energys") with UUIDStringId
   object Hotspots extends UnsecuredDAO[Hotspot]("hotspots") with UUIDStringId
+  object Alerts extends UnsecuredDAO[Alert]("alerts") with UUIDStringId
 
 }
 

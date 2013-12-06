@@ -1,13 +1,20 @@
-<div class="hero-unit">
-  <h1>'Allo, 'Allo!</h1>
-  <p>You now have</p>
-  <ul>
-      <li ng-repeat="thing in awesomeThings">{{thing}}</li>
-  </ul>
-  <p>installed.</p>
+<div class="jumbotron">
+    
+    <!-- Not logged -->
+    <div class="container" ng-hide="isAuth">
+      <h1>Autorizar</h1>
+      <p class="lead">Antes de comenzar, es necesario que se identifique.</p>
+      <a class="btn btn-large btn-success" href="#/login">Identificarse</a>
+    </div>
 
-  <button class="btn" ng-click="deAuth()">De Auth</button>
-  
-  <button class="btn" ng-click="checkAuth()">Check Auth</button>
-  <h3>Enjoy coding! - Yeoman</h3>
+    <!-- Logged -->
+    <div class="container" ng-show="isAuth">
+      <h1>Comenzar</h1>
+      <p class="lead">Ir al panel</p>
+      <ul class="nav navbar-nav">
+          <li> <a href="#/energy">Energía</a> </li>
+          <li> <a href="#/hotspot">Wifi</a> </li>
+          <li> <a href="#/alerts">Alertas</a> </li>
+      </ul>
+    </div>
 </div>

@@ -26,6 +26,12 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
     }
   }
 
+  def fonts = pathPrefix("fonts" / Rest) { fileName =>
+    get {
+      encodeResponse(Gzip) { getFromResource(s"fonts/$fileName") }
+    }
+  }
+
   def img = pathPrefix("img" / Rest) { fileName =>
     get {
       encodeResponse(Gzip) { getFromResource(s"img/$fileName") }
@@ -47,23 +53,23 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
   }
 
   def auth = path("auth") {
-    get {
-      authenticate(BasicAuth("Bee Solar")) { user =>
+    post {
+      // XXX: comprobar oToken, username, saltedPass
         complete("OK")
-      } 
     }
   }
 
   def api = pathPrefix("api") {
-    //authenticate(BasicAuth()) { user =>
+    // Las credenciales vienen dadas por spray.routing.users en application.conf
+    authenticate(BasicAuth()) { user =>
       dynamic(
-        restString("reminders", DB.Reminders) ~
         restString("hotspots", DB.Hotspots) ~
+        restString("alerts", DB.Alerts) ~
         restString("energys", DB.Energys)
       )
-    //}
+    }
 
   }
 
-  def routes = index ~ views ~ js ~ css ~ img ~ api ~ auth
+  def routes = index ~ views ~ js ~ css ~ img ~ fonts ~ api ~ auth
 }

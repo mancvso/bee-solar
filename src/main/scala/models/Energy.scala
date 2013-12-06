@@ -5,7 +5,8 @@ import sprest.models._
 import org.joda.time.DateTime
 import sprest.reactivemongo.typemappers._
 
-case class Energy(device:String, start:DateTime, end:Option[DateTime],
+// TODO: Add time field transient+dinamic
+case class Energy(device:String, start:DateTime = DateTime.now, var end:Option[DateTime] = None,
     var id: Option[String] = None ) extends Model[String]
 
 object Energy extends ModelCompanion[Energy, String] {

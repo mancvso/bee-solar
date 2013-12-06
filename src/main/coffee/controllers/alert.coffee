@@ -2,23 +2,23 @@
 
 app = angular.module('beeSolarApp')
 
-app.controller 'EnergyCtrl', ($scope, Energy) ->
-    $scope.doEnergy = ->  
+app.controller 'AlertCtrl', ($scope, Alert) ->
+    $scope.doAlert = ->  
         $scope.isEditing = false
         $scope.isWorking = true
-        $scope.energys   = Energy.query( () -> $scope.isWorking = false )
+        $scope.alerts    = Alert.query( () -> $scope.isWorking = false )
 
     $scope.add = (el) ->
-        el = new Energy({
-                device: $scope.device,
-                start: 6272638373262 # XXX: fecha real
+        el = new Alert({
+                message: $scope.message,
+                date: 6272638373262 # XXX: fecha real
             })
         el.$save()
-        $scope.energys.push( el )
+        $scope.alerts.push( el )
 
     $scope.remove = (el) ->
         el.$remove( () -> 
-            # XXX: $scope.energys.remove( el )
+            # XXX: $scope.alerts.remove( el )
             console.info "Removed from server"
         )
 
@@ -30,4 +30,4 @@ app.controller 'EnergyCtrl', ($scope, Energy) ->
         $scope.current.$save()
         $scope.isEditing = false
 
-    $scope.doEnergy()
+    $scope.doAlert()

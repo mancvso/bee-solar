@@ -11,7 +11,13 @@ angular.module('beeSolarApp').factory('Auth', ['Base64', '$cookieStore', '$http'
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");
             $cookieStore.remove('authdata');
+            $cookieStore.put('authdata', "-");
             $http.defaults.headers.common.Authorization = 'Basic ';
+        },
+        hasCredentials: function () {
+            authData = $cookieStore.get('authdata') || '--'
+            //XXX: is native?
+            $http.defaults.headers.common.Authorization === ('Basic ' + authData )
         }
     };
 }]);
