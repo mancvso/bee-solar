@@ -2,7 +2,7 @@ package datactil.beesolar.models
 
 import spray.json._
 import sprest.models._
-import org.joda.time.DateTime
+import org.joda.time.{DateTime, Period}
 import sprest.reactivemongo.typemappers._
 
 // TODO: Add time field transient+dinamic
@@ -12,4 +12,5 @@ case class Energy(device:String, start:DateTime = DateTime.now, var end:Option[D
 object Energy extends ModelCompanion[Energy, String] {
   import sprest.Formats._
   implicit val jsonFormat = jsonFormat4(Energy.apply _)
+  //TODO: Proper Enums class Device(val device:Int) extends AnyVal
 }

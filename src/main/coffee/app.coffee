@@ -16,7 +16,7 @@ angular.module('beeSolarApp', [
   'ngResource',
   'ngSanitize',
   'ui.router',
-  #'http-auth-interceptor',
+  'angularMoment',
   'services'
 ])
   .config ($stateProvider, $routeProvider, $urlRouterProvider) ->
@@ -51,4 +51,8 @@ angular.module('beeSolarApp', [
       .state 'logout',
         url: '/logout',
         templateUrl: 'html/views/logout.html',
-        controller: 'LogoutCtrl'    
+        controller: 'LogoutCtrl'
+      .state 'stats',
+        url: '/stats',
+        templateUrl: 'html/views/stats.html',
+        controller: 'StatsCtrl'

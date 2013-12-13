@@ -5,9 +5,12 @@ import spray.routing.SimpleRoutingApp
 import spray.routing.authentication._
 import sprest.routing.RestRoutes
 import sprest.security.{Session, User}
+import spray.routing.{HttpServiceActor, HttpService}
 
+import spray.can.Http
+import spray.can.server.Stats
 
-trait Routes extends RestRoutes { this: SimpleRoutingApp =>
+trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
   import spray.routing.Directives._
   import spray.httpx.SprayJsonSupport._
   import spray.httpx.encoding.Gzip
@@ -44,11 +47,10 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
 
   def index = path("") {
     get {
-      //authenticate(BasicAuth("Bee Solar")) { user =>
         getFromResource("html/index.html")
-      //} 
     }
   }
+
 
   def views = pathPrefix("html" / Rest) { fileName =>
     get {
@@ -63,12 +65,12 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
         val username = confx.getString("spray.routing.users.username")
         // XXX: SHA-1
         val checkSalted = security.Base64.encode( password + ":" + authIntent.token)
-        val hasMatch:Boolean = (checkSalted.diff(authIntent.saltedPass).trim).length == 0
+        val hasMatch:Boolean = checkSalted.diff(authIntent.saltedPass).trim.length == 0
 
         if(authIntent.username == username && hasMatch){
           complete("OK")
         } else {
-          complete("UNAUTHORIZED->" + (username + ":" + password) + "\n check:" + checkSalted + "\n data:" + authIntent.saltedPass + "\n user:" + authIntent.username)
+          complete("UNAUTHORIZED")
         }
       }
     }
@@ -83,7 +85,6 @@ trait Routes extends RestRoutes { this: SimpleRoutingApp =>
         restString("energys", DB.Energys)
       )
     }
-
   }
 
   def routes = index ~ views ~ js ~ css ~ img ~ fonts ~ api ~ auth

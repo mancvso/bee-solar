@@ -18,6 +18,7 @@
             <li ng-show="isEditing" class="active">{{current.id}}</li>
         </ol>
         <h2>Clientes de Energía</h2>
+
         <!-- CREATE -->
         <form class="form-inline" role="form" ng-submit="add()">
             <div class="form-group">
@@ -28,6 +29,7 @@
             </button>
         </form>
         <hr>
+
         <!-- UPDATE -->
         <form role="form" ng-submit="doUpdate()" ng-show="isEditing">
             <legend>Editando el registro {{current.id}}</legend>
@@ -36,9 +38,10 @@
                 <label for="device">Dispositivo</label>
                 <input type="text" class="form-control" id="device" ng-model="current.device" placeholder="Dispositivo">
             </div>
-        
+
             <button type="submit" class="btn btn-primary">Actualizar</button>
         </form>
+
         <!-- LIST -->
         <table class="table table-hover" ng-hide="isEditing || isWorking">
             <thead>
@@ -51,17 +54,20 @@
             <tbody>
                 <tr ng-repeat="item in energys">
                     <td>{{item.device}}</td>
-                    <td><a x-click="doToggleTimeDisplay(item)">{{item.start}}</a></td>
+                    <td><span am-time-ago="item.start"></span></td>
                     <td>
                         <!-- UPDATE -->
                         <i ng-click="edit(item)" class="glyphicon glyphicon-edit"></i>
+                        <span class="text-muted">&nbsp;|&nbsp;</span>
+                        <!-- STOP -->
+                        <i ng-click="stop(item)"class="glyphicon glyphicon-stop"></i>
                         <span class="text-muted">&nbsp;|&nbsp;</span>
                         <!-- DELETE -->
                         <i ng-click="remove(item)"class="glyphicon glyphicon-remove"></i>
                     </td>
                 </tr>
             </tbody>
-        </table>            
+        </table>
         <!-- Loader -->
         <div class="alert alert-info" ng-show="isWorking">
             Espere ...

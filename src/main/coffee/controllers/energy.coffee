@@ -16,7 +16,7 @@ app.controller 'EnergyCtrl', ($scope, Energy, Auth) ->
     $scope.add = (el) ->
         el = new Energy({
                 device: $scope.device,
-                start: 6272638373262 # XXX: fecha real
+                start: new Date()
             })
         el.$save()
         $scope.energys.push( el )
@@ -30,6 +30,15 @@ app.controller 'EnergyCtrl', ($scope, Energy, Auth) ->
     $scope.edit = (el) ->
         $scope.current = el
         $scope.isEditing = true
+
+    $scope.stop = (el) ->
+        el.end = new Date()
+        el.$save()
+
+    $scope.doFilter = (criteria) ->
+        switch criteria
+            when 'today' then
+
 
     $scope.doUpdate = ->
         $scope.current.$save()
