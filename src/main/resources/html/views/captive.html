@@ -1,0 +1,33 @@
+<div class="jumbotron">
+    <h1>Branding</h1>
+    <p>Branding</p>
+</div>
+<form role="form" ng-submit="doAuthorize()">
+    <legend>Acceso a Wi-Fi</legend>
+
+    <input type="text" class="form-control" id="ip" ng-model="ip">
+    <input type="text" id="mac" class="form-control" ng-model="mac">
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label><input type="checkbox" required="required"/>&nbsp;Acepto los términos y condiciones.</label>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disable="isSending">Iniciar</button>
+</form>
+
+<div class="alert alert-info" ng-show="isSending">
+        <p>Enviando...</p>
+    </div>
+
+<div class="alert alert-success" ng-show="isReady">
+        <p>Identificado correctamente.</p>
+    </div>
+
+<div class="alert alert-danger" ng-show="wasRejected">
+    <p>Credenciales erróneas.</p>
+</div>
+

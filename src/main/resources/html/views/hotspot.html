@@ -1,26 +1,19 @@
-<h1>Panel de Monitoreo</h1>
-<div class="row">
-    
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-        <!--local Nav -->
-        <ul class="nav nav-pills nav-stacked">
-            <li><a href="#/home">Resumen</a></li>
-            <li><a href="#/alert">Alertas</a></li>
-            <li><a href="#/energy">Energía</a></li>
-            <li class="active"><a>Wifi</a></li>
-        </ul>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ol class="breadcrumb">
+                <li> <a href="#">Inicio</a> </li>
+                <li class="active">Wifi</li>
+            </ol>
+
+            <h2>Clientes de Wifi</h2>
+        </div>
     </div>
 
-    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-        <ol class="breadcrumb">
-            <li> <a href="#">Inicio</a> </li>
-            <li class="active">Wifi</li>
-        </ol>
-        <h2>Clientes de Wifi</h2>
+    <div class="row clearfix">
         <!-- FILTER -->
         <div class="btn-group">
-            <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Última hora"
-                    ng-click="filterByPeriod('hour')">Última hora</button>
+            <button type="button" class="btn btn-primary tooltip-enabled" data-toggle="tooltip" title="Última hora"
+                    ng-click="filterByPeriod('hour')">Tiempo real</button>
             <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Hoy"
                     ng-click="filterByPeriod('day')">Hoy</button>
             <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Semana"
@@ -29,83 +22,101 @@
                     ng-click="filterByPeriod('month')">Mes</button>
             <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Año"
                     ng-click="filterByPeriod('year')">Este año</button>
-            <button type="button" class="btn btn-primary tooltip-enabled" data-toggle="tooltip" title="Histórico"
+            <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Histórico"
                     ng-click="filterByPeriod('')">Histórico</button>
         </div>
 
-        <!-- CHARTS -->
-        <div>
-            <canvas id="chart" width="400" height="400"></canvas>
-            <div id="chart-legend"></div>
-        </div>
-
-        <div>
-            <canvas id="chart-period" width="400" height="400"></canvas>
-            <div id="chart-period-legend"></div>
-        </div>
-
-        <!-- CREATE -->
-        <form class="form-inline" role="form" ng-submit="add()">
-            <div class="form-group">
-                <input type="text" class="form-control" ng-model="mac" placeholder="MAC">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" ng-model="user" placeholder="Usuario">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" ng-model="device" placeholder="Dispositivo">
-            </div>
-            <button type="submit" class="btn btn-primary">
-                <i class="glyphicon glyphicon-plus-sign"></i>
-            </button>
-        </form>
-        <hr>
-        <!-- UPDATE -->
-        <form role="form" ng-submit="doUpdate()" ng-show="isEditing">
-            <legend>Editando el registro {{current.id}}</legend>
-
-            <div class="form-group">
-                <label for="mac">MAC</label>
-                <input type="text" class="form-control" id="mac" ng-model="current.mac" placeholder="MAC">
-            </div>
-
-            <div class="form-group">
-                <label for="user">Usuario</label>
-                <input type="text" class="form-control" id="user" ng-model="current.user" placeholder="Usuario">
-            </div>
-
-
-            <div class="form-group">
-                <label for="device">Dispositivo</label>
-                <input type="text" class="form-control" id="device" ng-model="current.device" placeholder="Dispositivo">
-            </div>
-
-            <div class="form-group">
-                <label for="start">Comienzo</label>
-                <input type="text" class="form-control" id="start" ng-model="current.start" placeholder="Comienzo">
-            </div>
-        
-            <button type="submit" class="btn btn-primary">Actualizar</button>
-        </form>
-        <!-- LIST -->
-        <div class="pull-right">
-            <p>Filtrar</p>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary tooltip-enabled" data-toggle="tooltip" title="Todos"
-                        ng-click="filterByDevice('')"><i class="fa fa-asterisk" ></i></button>
-                <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Computadores"
-                        ng-click="filterByDevice('laptop')"><i class="fa fa-laptop" ></i></button>
-                <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Teléfonos"
-                        ng-click="filterByDevice('mobile')"><i class="fa fa-mobile" ></i></button>
-                <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Tablets"
-                        ng-click="filterByDevice('tablet')"><i class="fa fa-tablet" ></i></button>
-                <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Consolas"
-                        ng-click="filterByDevice('console')"><i class="fa fa-gamepad"></i></button>
+        <div class="col-md-4 column">
+            <div width="80%" id="chart-parent">
+                <h3>Uso por dispositivo</h3>
+                <canvas id="chart" width="300" height="400"></canvas>
+                <div id="chart-legend"></div>
             </div>
         </div>
+        <div class="col-md-8 column">
+            <div width="80%">
+                <h3>Uso por tiempo</h3>
+                <canvas id="chart-period" width="700" height="400"></canvas>
+                <div id="chart-period-legend"></div>
+            </div>
+        </div>
+    </div>
 
-        <table class="table table-hover" ng-hide="isEditing || isWorking">
-            <thead>
+    <div class="row clearfix">
+        <!-- Loader -->
+        <div class="alert alert-info" ng-show="isWorking">
+            Espere ...
+        </div>
+        <div class="col-md-12 column">
+            <h2>Clientes conectados</h2>
+
+            <!-- CREATE -->
+            <form class="form-inline" role="form" ng-submit="add()">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="mac" placeholder="MAC">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="user" placeholder="Usuario">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="device" placeholder="Dispositivo">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                </button>
+            </form>
+            <hr>
+            <!-- UPDATE -->
+            <form role="form" ng-submit="doUpdate()" ng-show="isEditing">
+                <legend>Editando el registro {{current.id}}</legend>
+
+                <div class="form-group">
+                    <label for="mac">MAC</label>
+                    <input type="text" class="form-control" id="mac" ng-model="current.mac" placeholder="MAC">
+                </div>
+
+                <div class="form-group">
+                    <label for="user">Usuario</label>
+                    <input type="text" class="form-control" id="user" ng-model="current.user" placeholder="Usuario">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="device">Dispositivo</label>
+                    <input type="text" class="form-control" id="device" ng-model="current.device" placeholder="Dispositivo">
+                </div>
+
+                <div class="form-group">
+                    <label for="start">Comienzo</label>
+                    <input type="text" class="form-control" id="start" ng-model="current.start" placeholder="Comienzo">
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notas</label>
+                    <textarea name="notes" id="notes" cols="30" rows="10" ng-model="current.notes"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+            <!-- LIST -->
+            <div class="pull-right">
+                <p>Filtrar</p>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary tooltip-enabled" data-toggle="tooltip" title="Todos"
+                            ng-click="filterByDevice('')"><i class="fa fa-asterisk" ></i></button>
+                    <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Computadores"
+                            ng-click="filterByDevice('laptop')"><i class="fa fa-laptop" ></i></button>
+                    <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Teléfonos"
+                            ng-click="filterByDevice('mobile')"><i class="fa fa-mobile" ></i></button>
+                    <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Tablets"
+                            ng-click="filterByDevice('tablet')"><i class="fa fa-tablet" ></i></button>
+                    <button type="button" class="btn btn-default tooltip-enabled" data-toggle="tooltip" title="Consolas"
+                            ng-click="filterByDevice('console')"><i class="fa fa-gamepad"></i></button>
+                </div>
+            </div>
+
+            <table class="table table-hover" ng-hide="isEditing || isWorking">
+                <thead>
                 <tr>
                     <th>MAC</th>
                     <th>Usuario</th>
@@ -113,8 +124,8 @@
                     <th>Inicio</th>
                     <th>&nbsp;</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr ng-repeat="item in hotspots">
                     <td>{{item.mac}}</td>
                     <td>{{item.user}}</td>
@@ -128,15 +139,16 @@
                         <i ng-click="remove(item)"class="glyphicon glyphicon-remove"></i>
                     </td>
                 </tr>
-            </tbody>
-        </table>            
+                </tbody>
+            </table>
 
-        <!-- Loader -->
-        <div class="alert alert-info" ng-show="isWorking">
-            Espere ...
+
         </div>
-    </div> <!-- /col-8 -->
-</div><!-- /row -->
+    </div>
+
+
+
+
 <script type="text/javascript">
     $(".tooltip-enabled").tooltip();
 </script>

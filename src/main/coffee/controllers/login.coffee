@@ -5,6 +5,9 @@ angular.module('beeSolarApp')
     $scope.isSending = false
     $scope.isReady = false
     $scope.wasRejected = false
+    $scope.username = ""
+    $scope.password = ""
+
 
     $scope.doRenew =  ->
         $scope.sToken = Base64.encode( (Math.random()*41 + 11) + "datactil" + (Math.random()*41 + 11) )

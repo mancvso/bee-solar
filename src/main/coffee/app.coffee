@@ -21,7 +21,7 @@ angular.module('beeSolarApp', [
 ])
   .config ($stateProvider, $routeProvider, $urlRouterProvider) ->
 
-    $urlRouterProvider.when('', '/main').otherwise("/main")
+    $urlRouterProvider.when('', '/captive').otherwise("/captive")
 
     $stateProvider
       .state 'main',
@@ -56,3 +56,7 @@ angular.module('beeSolarApp', [
         url: '/stats',
         templateUrl: 'html/views/stats.html',
         controller: 'StatsCtrl'
+    .state 'captive',
+        url: '/captive',
+        templateUrl: 'html/views/captive.html',
+        controller: 'CaptiveCtrl'

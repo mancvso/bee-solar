@@ -48,28 +48,28 @@ app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
 
         data = [
              value: laptops.length
-             color: "#F7464A"
+             color: "#006DCC"
              title: "Computadores"
             ,
              value: mobiles.length
-             color: "#F2FAE9"
+             color: "#49AFCD"
              title: "Teléfonos"
             ,
              value: consoles.length
-             color: "#D4CCC5"
+             color: "#5BB75B"
              title: "Consolas"
             ,
              value: tablets.length
-             color: "#949FB1"
+             color: "#FAA732"
              title: "Tablets"
             ,
              value: others.length
-             color: "#DDDDDD"
+             color: "#DA4F49"
              title: "Otros"
         ]
 
         ctx = $("#chart").get(0).getContext("2d")
-        new Chart(ctx).Doughnut( data, {animationSteps : 50, animation: "easeIn"} )
+        new Chart(ctx).Doughnut( data, { animation: false, showTooltips: true } )
         $("#chart-legend").empty()
         legend(document.getElementById("chart-legend"), data)
 
@@ -105,6 +105,7 @@ app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
             when 'month' then $scope.graphMonthByDays()
             when 'week' then $scope.graphWeekByWeekdays()
             when 'day' then $scope.graphDayByHours()
+            # when '_hour' then $scope.graphRealtime()
             else
                 console.log sPeriod
 
@@ -132,7 +133,7 @@ app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
           ]
 
         ctx = $("#chart-period").get(0).getContext("2d")
-        new Chart(ctx).Line( data )
+        new Chart(ctx).Line( data, { showTooltips: true } )
         $("#chart-period-legend").empty()
         legend(document.getElementById("chart-period-legend"), data)
 
@@ -160,7 +161,7 @@ app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
           ]
 
         ctx = $("#chart-period").get(0).getContext("2d")
-        new Chart(ctx).Line( data )
+        new Chart(ctx).Line( data, { showTooltips: true } )
         $("#chart-period-legend").empty()
         legend(document.getElementById("chart-period-legend"), data)
 
@@ -188,7 +189,7 @@ app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
           ]
 
         ctx = $("#chart-period").get(0).getContext("2d")
-        new Chart(ctx).Line( data )
+        new Chart(ctx).Line( data, { showTooltips: true } )
         $("#chart-period-legend").empty()
         legend(document.getElementById("chart-period-legend"), data)
 
