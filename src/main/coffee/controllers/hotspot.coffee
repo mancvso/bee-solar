@@ -2,17 +2,29 @@
 
 app = angular.module('beeSolarApp')
 
-app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
+app.controller 'HotspotCtrl', ($scope, $timeout, Hotspot, Auth) ->
     $scope.doHotspot = ->  
         $scope.isEditing = false
         $scope.isWorking = true
-        $scope.hotspots  = Hotspot.query(
-            () ->
-                $scope.isWorking = false
-                $scope.doChart()
-            (e) ->
-                Auth.manage(e)
-        )
+        $scope.realTime = true
+        $scope.hotspots  = []
+
+        (tick = ->
+            if($scope.realTime)
+                $scope.hotspots = Hotspot.query(->
+                    $scope.doChart()
+                    $scope.graphHourByMinutes()
+                    $timeout(tick, 1000)
+                )
+        )()
+
+        # Hotspot.query(
+        #     () ->
+        #         $scope.isWorking = false
+        #         $scope.doChart()
+        #     (e) ->
+        #         Auth.manage(e)
+        # )
 
     $scope.add = (el) ->
         el = new Hotspot({
@@ -40,11 +52,11 @@ app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
 
     $scope.doChart = ->
 
-        laptops = $scope.hotspots.filter( (item) -> (item.device == 'laptop') )
-        mobiles = $scope.hotspots.filter( (item) -> (item.device == 'mobile') )
-        consoles = $scope.hotspots.filter( (item) -> (item.device == 'console') )
-        tablets = $scope.hotspots.filter( (item) -> (item.device == 'tablet') )
-        others = $scope.hotspots.filter( (item) -> (item.device == 'other') )
+        laptops = $scope.hotspots.filter( (item) -> (item.device == 'LAPTOP') )
+        mobiles = $scope.hotspots.filter( (item) -> (item.device == 'MOBILE') )
+        consoles = $scope.hotspots.filter( (item) -> (item.device == 'CONSOLE') )
+        tablets = $scope.hotspots.filter( (item) -> (item.device == 'TABLET') )
+        others = $scope.hotspots.filter( (item) -> (item.device == 'OTHER') )
 
         data = [
              value: laptops.length
@@ -133,7 +145,41 @@ app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
           ]
 
         ctx = $("#chart-period").get(0).getContext("2d")
-        new Chart(ctx).Line( data, { showTooltips: true } )
+        new Chart(ctx).Line( data, { showTooltips: true, animation: false} )
+        $("#chart-period-legend").empty()
+        legend(document.getElementById("chart-period-legend"), data)
+
+    $scope.graphHourByMinutes = ->
+        console.log($scope.hotspots.length)
+        now = moment()
+        inf = now.subtract('seconds', 60)
+        sup = now.add('seconds', 30)
+        data =
+          labels: ( now.subtract('seconds', i).format('mm:ss') for i in [0..30] ) # 
+          datasets: [
+            fillColor: "rgba(220,220,220,0.5)"
+            strokeColor: "rgba(220,220,220,1)"
+            pointColor: "rgba(220,220,220,1)"
+            pointStrokeColor: "#fff"
+            data: (
+                $scope.hotspots.filter( (item) ->
+                    mtime = moment(item.start)
+                    it = now.subtract('seconds', i)
+                    mtime.seconds() == it.seconds() && mtime.minutes() == it.minutes() && mtime.hours() == it.hours()
+                ).length
+            ) for i in [0..30]
+            title: "Esta semana"
+          ,
+            fillColor: "rgba(151,187,205,0.5)"
+            strokeColor: "rgba(151,187,205,1)"
+            pointColor: "rgba(151,187,205,1)"
+            pointStrokeColor: "#fff"
+            data: ( i/4 for i in [0..30] )
+            title: "Hace un día"
+          ]
+
+        ctx = $("#chart-period").get(0).getContext("2d")
+        new Chart(ctx).Line( data, { showTooltips: true, animation: false} )
         $("#chart-period-legend").empty()
         legend(document.getElementById("chart-period-legend"), data)
 
@@ -221,7 +267,6 @@ app.controller 'HotspotCtrl', ($scope, Hotspot, Auth) ->
         new Chart(ctx).Line( data )
         $("#chart-period-legend").empty()
         legend(document.getElementById("chart-period-legend"), data)
-
 
     # initial call
     $scope.doHotspot()

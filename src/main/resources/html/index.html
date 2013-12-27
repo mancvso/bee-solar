@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="css/main.css">
         <!-- endbuild -->
 </head>
-  <body ng-app="beeSolarApp">
+  <body>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -27,36 +27,29 @@
       <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <nav class="navbar navbar-default" role="navigation" ng-controller="MainCtrl">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Bee Solar</a>
-        </div>
-    
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav" ng-show="isAuth()">
-                <li><a href="#/home">Resumen</a></li>
-                <li><a href="#/alert">Alertas</a></li>
-                <li><a href="#/energy">Energía</a></li>
-                <li><a href="#/hotspot">Wifi</a></li>
-            </ul>
-            <ul class="nav navbar-nav pull-right">
-                <li ng-show="isAuth()"><a ng-click="deAuth()">Salir</a></li>
-                <li ng-hide="isAuth()"><a href="#/login">Entrar</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </nav>
-
     <div class="container">
-        <div ui-view=""></div>
+        <div class="jumbotron">
+            <h1>Branding</h1>
+            <p>Branding</p>
+        </div>
+        <form role="form" ng-submit="doAuthorize()">
+            <legend>Acceso a Wi-Fi</legend>
+
+            <input type="text" class="form-control" id="ip" ng-model="ip">
+            <input type="text" id="mac" class="form-control" ng-model="mac">
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label><input type="checkbox" required="required"/>&nbsp;Acepto los términos y condiciones.</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" ng-disable="isSending">Iniciar</button>
+        </form>
+
+
     </div>
 
 
@@ -72,37 +65,9 @@
     </script> -->
 
     <script src="js/jquery.js"></script>
-    <script src="js/angular.js"></script>
-
-    <!-- build:js scripts/plugins.js -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/angular-resource.js"></script>
-    <script src="js/angular-cookies.js"></script>
-    <script src="js/angular-sanitize.js"></script>
-    <script src="js/angular-ui-router.js"></script>
-    <!-- XXX <script src="js/http-auth-interceptor.js"></script> -->
-    <!-- endbuild -->
-
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="js/app.js"></script>
-    <script src="js/base64.js"></script>
-    <script src="js/crypto-js-sha1.js"></script>
     <script src="js/moment-with-langs.min.js"></script>
-    <script src="js/moment-range.js"></script>
-    <script src="js/angular-moment.min.js"></script>
-    <script src="js/chart-tooltip.min.js"></script>
-    <script src="js/legend.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/controllers/main.js"></script>
-    <script src="js/controllers/home.js"></script>
-    <script src="js/controllers/login.js"></script>
-    <script src="js/controllers/logout.js"></script>
-    <script src="js/controllers/energy.js"></script>
-    <script src="js/controllers/hotspot.js"></script>
-    <script src="js/controllers/alert.js"></script>
-    <script src="js/controllers/captive.js"></script>
-    <!-- endbuild -->
+    
 
     <script type="text/javascript">
         window.moment.lang('es');

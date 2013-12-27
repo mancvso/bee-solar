@@ -1,0 +1,112 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <!-- endbuild -->
+</head>
+  <body ng-app="beeSolarApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="bower_components/es5-shim/es5-shim.js"></script>
+      <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <nav class="navbar navbar-default" role="navigation" ng-controller="MainCtrl">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Bee Solar</a>
+        </div>
+    
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav" ng-show="isAuth()">
+                <li><a href="#/home">Resumen</a></li>
+                <li><a href="#/alert">Alertas</a></li>
+                <li><a href="#/energy">Energía</a></li>
+                <li><a href="#/hotspot">Wifi</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li ng-show="isAuth()"><a ng-click="deAuth()">Salir</a></li>
+                <li ng-hide="isAuth()"><a href="#/login">Entrar</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+
+    <div class="container">
+        <div ui-view=""></div>
+    </div>
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
+     <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script> -->
+
+    <script src="js/jquery.js"></script>
+    <script src="js/angular.js"></script>
+
+    <!-- build:js scripts/plugins.js -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular-resource.js"></script>
+    <script src="js/angular-cookies.js"></script>
+    <script src="js/angular-sanitize.js"></script>
+    <script src="js/angular-ui-router.js"></script>
+    <!-- XXX <script src="js/http-auth-interceptor.js"></script> -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="js/app.js"></script>
+    <script src="js/base64.js"></script>
+    <script src="js/crypto-js-sha1.js"></script>
+    <script src="js/moment-with-langs.min.js"></script>
+    <script src="js/moment-range.js"></script>
+    <script src="js/angular-moment.min.js"></script>
+    <script src="js/chart-tooltip.min.js"></script>
+    <script src="js/legend.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers/main.js"></script>
+    <script src="js/controllers/home.js"></script>
+    <script src="js/controllers/login.js"></script>
+    <script src="js/controllers/logout.js"></script>
+    <script src="js/controllers/energy.js"></script>
+    <script src="js/controllers/hotspot.js"></script>
+    <script src="js/controllers/alert.js"></script>
+    <script src="js/controllers/captive.js"></script>
+    <!-- endbuild -->
+
+    <script type="text/javascript">
+        window.moment.lang('es');
+    </script>
+
+</body>
+</html>

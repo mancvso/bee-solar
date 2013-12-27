@@ -1,14 +1,18 @@
 package datactil.beesolar
 
+import datactil.beesolar.models.Hotspot
 import scala.concurrent.{ ExecutionContext, Future }
-import spray.routing.SimpleRoutingApp
+import spray.routing.{RequestContext, SimpleRoutingApp, HttpServiceActor, HttpService}
 import spray.routing.authentication._
 import sprest.routing.RestRoutes
 import sprest.security.{Session, User}
-import spray.routing.{HttpServiceActor, HttpService}
 
 import spray.can.Http
 import spray.can.server.Stats
+import reactivemongo.bson.{BSONDateTime, BSONValue, BSONDocument}
+import org.joda.time.DateTime
+import akka.actor.Props
+import spray.http.StatusCodes
 
 trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
   import spray.routing.Directives._
@@ -20,8 +24,9 @@ trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
   import datactil.beesolar.security.AuthIntent
   
   val confx = ConfigFactory.load()
+  //val cometActor = actorRefFactory.actorOf(Props[Comet])
 
-  def js = pathPrefix("js" / Rest) { fileName =>
+  def js = pathPrefix("js" / Rest) { fileName:String =>
     get {
       encodeResponse(Gzip) { getFromResource(s"js/$fileName") }
     }
@@ -45,9 +50,22 @@ trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
     }
   }
 
+  def admin = path("admin") {
+    get {
+      getFromResource("html/admin.html")
+    }
+  }
+
   def index = path("") {
     get {
-        getFromResource("html/index.html")
+      getFromResource("html/index.html")
+    }
+  }
+
+  def comet = path("comet"){
+    get { ctx:RequestContext =>
+      //cometActor ! Ping("some", DateTime.now(), ctx)
+      complete(StatusCodes.OK)
     }
   }
 
@@ -87,5 +105,5 @@ trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
     }
   }
 
-  def routes = index ~ views ~ js ~ css ~ img ~ fonts ~ api ~ auth
+  def routes = index ~ admin ~ views ~ js ~ css ~ img ~ fonts ~ api ~ auth ~ comet
 }
