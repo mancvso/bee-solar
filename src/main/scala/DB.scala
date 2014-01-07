@@ -1,8 +1,7 @@
 package datactil.beesolar
 
-import sprest.reactivemongo.{ ReactiveMongoPersistence, BsonProtocol }
+import sprest.reactivemongo.ReactiveMongoPersistence
 import sprest.reactivemongo.typemappers._
-import sprest.Formats._
 import spray.json.RootJsonFormat
 import com.typesafe.config._
 
@@ -34,9 +33,9 @@ object DB extends ReactiveMongoPersistence {
   }
 
   // MongoDB collections:
-  object Energys extends UnsecuredDAO[Energy]("energys") with UUIDStringId
-  object Hotspots extends UnsecuredDAO[Hotspot]("hotspots") with UUIDStringId
-  object Alerts extends UnsecuredDAO[Alert]("alerts") with UUIDStringId
+  object EnergyDAO extends UnsecuredDAO[EnergyClient]("energys") with UUIDStringId
+  object HotspotDAO extends UnsecuredDAO[HotspotClient]("hotspots") with UUIDStringId
+  object AlertDAO extends UnsecuredDAO[Alert]("alerts") with UUIDStringId
 
 }
 

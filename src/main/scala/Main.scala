@@ -20,14 +20,18 @@ import spray.httpx.TwirlSupport
 import spray.httpx.encoding.Gzip
 
 import com.typesafe.config._
+import com.github.jodersky.flow.SerialSettings
 
 object Main extends App with SimpleRoutingApp with spray.httpx.SprayJsonSupport with Routes {a =>
 
   val conf = ConfigFactory.load()
   override implicit val system = ActorSystem(conf.getString("app.name"))
-  lazy val mercury = system.actorOf(Props[Mercury])
+
+  val settings = SerialSettings(conf.getString("serial.port"), conf.getInt("serial.baud"))
+  val serial = system.actorOf(Mercury(settings), name = "terminal")
+
 
   startServer( interface = conf.getString("app.host"), port = conf.getInt("app.port") ) {
-    routes ~ pathPrefix("server"){ ctx => mercury ! ctx }
+    routes
   }
 }

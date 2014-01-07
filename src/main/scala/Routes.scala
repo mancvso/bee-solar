@@ -1,24 +1,15 @@
 package datactil.beesolar
 
-import datactil.beesolar.models.Hotspot
-import scala.concurrent.{ ExecutionContext, Future }
-import spray.routing.{RequestContext, SimpleRoutingApp, HttpServiceActor, HttpService}
+import scala.concurrent.{ ExecutionContext}
+import spray.routing.{RequestContext, SimpleRoutingApp, HttpService}
 import spray.routing.authentication._
 import sprest.routing.RestRoutes
-import sprest.security.{Session, User}
 
-import spray.can.Http
-import spray.can.server.Stats
-import reactivemongo.bson.{BSONDateTime, BSONValue, BSONDocument}
-import org.joda.time.DateTime
-import akka.actor.Props
 import spray.http.StatusCodes
 
 trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
-  import spray.routing.Directives._
   import spray.httpx.SprayJsonSupport._
   import spray.httpx.encoding.Gzip
-  import spray.json._
   import ExecutionContext.Implicits.global
   import com.typesafe.config._
   import datactil.beesolar.security.AuthIntent
@@ -32,19 +23,19 @@ trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
     }
   }
 
-  def css = pathPrefix("css" / Rest) { fileName =>
+  def css = pathPrefix("css" / Rest) { fileName:String =>
     get {
       encodeResponse(Gzip) { getFromResource(s"css/$fileName") }
     }
   }
 
-  def fonts = pathPrefix("fonts" / Rest) { fileName =>
+  def fonts = pathPrefix("fonts" / Rest) { fileName:String =>
     get {
       encodeResponse(Gzip) { getFromResource(s"fonts/$fileName") }
     }
   }
 
-  def img = pathPrefix("img" / Rest) { fileName =>
+  def img = pathPrefix("img" / Rest) { fileName:String =>
     get {
       encodeResponse(Gzip) { getFromResource(s"img/$fileName") }
     }
@@ -70,7 +61,7 @@ trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
   }
 
 
-  def views = pathPrefix("html" / Rest) { fileName =>
+  def views = pathPrefix("html" / Rest) { fileName:String =>
     get {
       encodeResponse(Gzip) { getFromResource(s"html/$fileName") }
     }
@@ -97,10 +88,8 @@ trait Routes extends HttpService with RestRoutes { this: SimpleRoutingApp =>
   def api = pathPrefix("api") {
     // Las credenciales vienen dadas por spray.routing.users en application.conf
     authenticate(BasicAuth()) { user =>
-      dynamic(
-        restString("hotspots", DB.Hotspots) ~
-        restString("alerts", DB.Alerts) ~
-        restString("energys", DB.Energys)
+      dynamic (
+        restString("hotspots", DB.HotspotDAO) ~ restString("alerts", DB.AlertDAO) ~ restString("energys", DB.EnergyDAO)
       )
     }
   }
