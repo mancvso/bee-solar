@@ -1,24 +1,24 @@
-package datactil.beesolar
+package com.datactil
 
 import sprest.reactivemongo.ReactiveMongoPersistence
 import sprest.reactivemongo.typemappers._
 import spray.json.RootJsonFormat
 import com.typesafe.config._
+import models._
 
 object DB extends ReactiveMongoPersistence {
 
   import reactivemongo.api._
   import sprest.models.UUIDStringId
   import sprest.models.UniqueSelector
-  import models._
   import scala.concurrent.ExecutionContext
 
   val conf = ConfigFactory.load()
   val driver = new MongoDriver
   val connection = driver.connection(List(conf.getString("mongo.server")))
-  lazy val db = connection(conf.getString("app.name"))(Main.system.dispatcher)
+  lazy val db = connection(conf.getString("app.name"))(Boot.system.dispatcher)
 
-  // Json mapping to / from BSON - in this case we want "_id" from BSON to be 
+  // Json mapping to / from BSON - in this case we want "_id" from BSON to be
   // mapped to "id" in JSON in all cases
   implicit object JsonTypeMapper extends SprayJsonTypeMapper with NormalizedIdTransformer
 
@@ -33,9 +33,8 @@ object DB extends ReactiveMongoPersistence {
   }
 
   // MongoDB collections:
-  object EnergyDAO extends UnsecuredDAO[EnergyClient]("energys") with UUIDStringId
-  object HotspotDAO extends UnsecuredDAO[HotspotClient]("hotspots") with UUIDStringId
+  object EnergyDAO extends UnsecuredDAO[EnergyClient]("energyclients") with UUIDStringId
+  object HotspotDAO extends UnsecuredDAO[HotspotClient]("hotspotclients") with UUIDStringId
   object AlertDAO extends UnsecuredDAO[Alert]("alerts") with UUIDStringId
 
 }
-

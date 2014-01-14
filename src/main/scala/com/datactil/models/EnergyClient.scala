@@ -1,12 +1,12 @@
-package datactil.beesolar.models
+package com.datactil.models
 
+/**
+ * Created by brianbvidal on 14-01-14.
+ */
 import sprest.models._
-import org.joda.time.{DateTime, Period}
-import models.Client
+import org.joda.time.DateTime
 
-// TODO: Add time field transient+dinamic
 case class EnergyClient (
-
   start:DateTime = DateTime.now,
 
   var end:Option[DateTime] = None,

@@ -1,12 +1,14 @@
-package datactil.beesolar.models
+package com.datactil.models
+
+/**
+ * Created by brianbvidal on 14-01-14.
+ */
 
 import sprest.models._
 import org.joda.time.DateTime
-import models.Client
 
 case class HotspotClient (
-
-  device:Devices.Device,
+  device:Device,
   user:String,
   start:DateTime = DateTime.now(),
 
@@ -18,7 +20,6 @@ case class HotspotClient (
 
 ) extends Client with Model[String]
 
-import spray.json._
 object HotspotClient extends ModelCompanion[HotspotClient, String] {
   import sprest.Formats._
 

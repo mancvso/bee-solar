@@ -1,4 +1,4 @@
-package datactil.beesolar.security
+package com.datactil.security
 
 import sprest.security.{ Session => SprestSession, User }
 

@@ -1,33 +1,35 @@
 import AssemblyKeys._
 
-resolvers += "spray repo" at "http://repo.spray.io"
+organization  := "com.example"
 
-resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
+version       := "0.1"
 
-resolvers += "sprest snapshots" at "http://markschaake.github.com/releases"
+scalaVersion  := "2.10.3"
 
-scalaVersion := "2.10.3"
+scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
-name := "bee-solar"
-
-scalacOptions += "-feature"
-
-scalacOptions += "-deprecation"
-
-libraryDependencies ++= Seq(
-	"com.typesafe.akka"             %% "akka-actor"           % "2.2.1",
-	"ch.qos.logback"                % "logback-classic"       % "1.0.1",
-  "joda-time"                     % "joda-time"             % "2.1",
-  "org.joda"                      % "joda-convert"          % "1.3",
-  "sprest"                        %% "sprest-reactivemongo" % "0.3.0",
-	"org.specs2"                    %% "specs2"               % "2.2" % "test",
-  "com.github.jodersky"           %% "flow"                 % "1.0.1-SNAPSHOT"
+resolvers ++= Seq(
+  "spray repo"   at "http://repo.spray.io/",
+  "Mark Schaake" at "http://markschaake.github.com/snapshots"
 )
+
+libraryDependencies ++= {
+  val akkaV = "2.2.3"
+  val sprayV = "1.2.0"
+  Seq(
+    "io.spray"            %   "spray-can"           % sprayV,
+    "io.spray"            %   "spray-routing"       % sprayV,
+    "io.spray"            %   "spray-testkit"       % sprayV,
+    "com.typesafe.akka"   %%  "akka-actor"          % akkaV,
+    "com.typesafe.akka"   %%  "akka-testkit"        % akkaV,
+    "org.specs2"          %%  "specs2"              % "2.2.3" % "test",
+    "com.github.jodersky" %% "flow"                 % "1.0.1-SNAPSHOT",
+    "sprest"              %% "sprest-reactivemongo" % "0.3.0"
+  )
+}
 
 seq(Revolver.settings: _*)
 
 seq(coffeeSettings: _*)
-
-//seq(lessSettings:_*)
 
 assemblySettings
